@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { Mail, Phone, Linkedin, Github, Send } from "lucide-react"
+import { sendContactEmail, type ContactFormData } from "@/lib/emailjs"
 
 export function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -15,19 +16,35 @@ export function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    toast({
-      title: "Message sent!",
-      description: "Thank you for your message. I'll get back to you soon.",
-    })
-    
-    setIsSubmitting(false)
-    
-    // Reset form
-    const form = e.target as HTMLFormElement
-    form.reset()
+    try {
+      const formData = new FormData(e.target as HTMLFormElement)
+      const contactData: ContactFormData = {
+        firstName: formData.get('firstName') as string,
+        lastName: formData.get('lastName') as string,
+        email: formData.get('email') as string,
+        subject: formData.get('subject') as string,
+        message: formData.get('message') as string
+      }
+
+      await sendContactEmail(contactData)
+      
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for your message. I'll get back to you soon.",
+      })
+      
+      // Reset form
+      const form = e.target as HTMLFormElement
+      form.reset()
+    } catch (error) {
+      toast({
+        title: "Failed to send message",
+        description: error instanceof Error ? error.message : "Please try again later.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactInfo = [
