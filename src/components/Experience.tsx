@@ -64,8 +64,7 @@ export function Experience() {
       x: 0,
       rotateY: 0,
       transition: {
-        duration: 1,
-        ease: [0.25, 0.46, 0.45, 0.94]
+        duration: 1
       }
     }
   };
@@ -121,8 +120,7 @@ export function Experience() {
                     rotateX: 0,
                     transition: {
                       duration: 0.8,
-                      delay: index * 0.2,
-                      ease: [0.25, 0.46, 0.45, 0.94]
+                      delay: index * 0.2
                     }
                   }
                 }}

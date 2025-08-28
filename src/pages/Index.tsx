@@ -29,7 +29,7 @@ const Index = () => {
   } = useSectionSnap(sections);
 
   return (
-    <ThemeProvider defaultTheme="light" storageKey="portfolio-theme">
+    <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
       <div className="min-h-screen bg-background snap-y snap-mandatory overflow-y-scroll">
         <ScrollProgress />
         <Header />
