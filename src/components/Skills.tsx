@@ -1,6 +1,9 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Code, Cloud, Database, BarChart3 } from "lucide-react"
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
+import { TypewriterText } from "@/components/TypewriterText"
 
 const skillCategories = [
   {
@@ -48,73 +51,218 @@ const skillCategories = [
 ]
 
 export function Skills() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-10%" });
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 60, rotateX: -15 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 0.46, 0.45, 0.94]
+      }
+    }
+  };
+
   return (
-    <section id="skills" className="py-20 section-gradient snap-start min-h-screen flex items-center">
+    <section ref={ref} id="skills" className="py-20 section-gradient snap-start min-h-screen flex items-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Areas of <span className="text-gradient">Expertise</span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive skill set spanning full-stack development, cloud architecture, and data engineering
-          </p>
-        </div>
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.div variants={cardVariants} className="text-center mb-16">
+            <motion.h2 
+              className="text-4xl md:text-5xl font-bold mb-4"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              Areas of <span className="text-gradient">
+                <TypewriterText
+                  words={["Expertise", "Mastery", "Knowledge"]}
+                  delay={1000}
+                  speed={200}
+                  pauseTime={4000}
+                />
+              </span>
+            </motion.h2>
+            <motion.p 
+              className="text-xl text-muted-foreground max-w-2xl mx-auto"
+              variants={cardVariants}
+            >
+              Comprehensive skill set spanning full-stack development, cloud architecture, and data engineering
+            </motion.p>
+          </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {skillCategories.map((category, index) => (
-            <Card key={index} className="glass-card hover-lift animate-slide-up">
-              <CardContent className="p-8">
-                <div className="space-y-6">
-                  {/* Category Header */}
-                  <div className="flex items-start gap-4">
-                    <div className={`${category.bgColor} p-3 rounded-lg`}>
-                      <category.icon className={`h-8 w-8 ${category.color}`} />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold mb-2">{category.title}</h3>
-                    </div>
-                  </div>
-
-                  {/* Skills Grid */}
-                  <div className="flex flex-wrap gap-2">
-                    {category.skills.map((skill, skillIndex) => (
-                      <Badge 
-                        key={skillIndex}
-                        variant="secondary"
-                        className="hover:scale-105 transition-transform cursor-default bg-muted/50 hover:bg-muted"
+          <motion.div 
+            className="grid md:grid-cols-2 gap-8"
+            variants={containerVariants}
+          >
+            {skillCategories.map((category, index) => (
+              <motion.div
+                key={index}
+                variants={cardVariants}
+                whileHover={{ 
+                  scale: 1.03, 
+                  rotateY: 5,
+                  transition: { duration: 0.3 }
+                }}
+              >
+                <Card className="glass-card hover-lift h-full">
+                  <CardContent className="p-8">
+                    <div className="space-y-6">
+                      {/* Category Header */}
+                      <motion.div 
+                        className="flex items-start gap-4"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                        transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
                       >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
+                        <motion.div 
+                          className={`${category.bgColor} p-3 rounded-lg`}
+                          whileHover={{ 
+                            rotate: 360, 
+                            scale: 1.1,
+                            transition: { duration: 0.5 }
+                          }}
+                        >
+                          <category.icon className={`h-8 w-8 ${category.color}`} />
+                        </motion.div>
+                        <div className="flex-1">
+                          <motion.h3 
+                            className="text-xl font-bold mb-2"
+                            whileHover={{ x: 5 }}
+                          >
+                            {category.title}
+                          </motion.h3>
+                        </div>
+                      </motion.div>
+
+                      {/* Skills Grid */}
+                      <motion.div 
+                        className="flex flex-wrap gap-2"
+                        variants={{
+                          hidden: { opacity: 0 },
+                          visible: {
+                            opacity: 1,
+                            transition: {
+                              staggerChildren: 0.05,
+                              delayChildren: 0.7 + index * 0.1
+                            }
+                          }
+                        }}
+                        initial="hidden"
+                        animate={isInView ? "visible" : "hidden"}
+                      >
+                        {category.skills.map((skill, skillIndex) => (
+                          <motion.div
+                            key={skillIndex}
+                            variants={{
+                              hidden: { opacity: 0, scale: 0, rotate: -10 },
+                              visible: { 
+                                opacity: 1, 
+                                scale: 1, 
+                                rotate: 0,
+                                transition: { duration: 0.3 }
+                              }
+                            }}
+                            whileHover={{ 
+                              scale: 1.1, 
+                              rotate: 2,
+                              transition: { duration: 0.2 }
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            <Badge 
+                              variant="secondary"
+                              className="hover:scale-105 transition-transform cursor-default bg-muted/50 hover:bg-muted"
+                            >
+                              {skill}
+                            </Badge>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* Additional Skills Highlight */}
+          <motion.div 
+            className="mt-16"
+            variants={cardVariants}
+            whileHover={{ scale: 1.02, y: -5 }}
+          >
+            <Card className="glass-card max-w-4xl mx-auto">
+              <CardContent className="p-8">
+                <motion.h3 
+                  className="text-2xl font-bold mb-6 text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ delay: 1.2, duration: 0.6 }}
+                >
+                  Additional Competencies
+                </motion.h3>
+                <motion.div 
+                  className="grid md:grid-cols-3 gap-6 text-center"
+                  variants={{
+                    hidden: { opacity: 0 },
+                    visible: {
+                      opacity: 1,
+                      transition: {
+                        staggerChildren: 0.2,
+                        delayChildren: 1.4
+                      }
+                    }
+                  }}
+                  initial="hidden"
+                  animate={isInView ? "visible" : "hidden"}
+                >
+                  {[
+                    { title: "Architecture", desc: "Microservices, REST APIs, OAuth2, System Design", color: "primary" },
+                    { title: "Methodologies", desc: "Agile, CI/CD, Test-Driven Development, Code Review", color: "accent" },
+                    { title: "Soft Skills", desc: "Team Leadership, Problem Solving, Technical Writing", color: "purple-500" }
+                  ].map((comp, index) => (
+                    <motion.div 
+                      key={index}
+                      className="space-y-2"
+                      variants={{
+                        hidden: { opacity: 0, y: 30 },
+                        visible: { opacity: 1, y: 0 }
+                      }}
+                      whileHover={{ 
+                        scale: 1.05, 
+                        y: -5,
+                        transition: { duration: 0.2 }
+                      }}
+                    >
+                      <h4 className={`font-semibold text-${comp.color}`}>{comp.title}</h4>
+                      <p className="text-sm text-muted-foreground">{comp.desc}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
               </CardContent>
             </Card>
-          ))}
-        </div>
-
-        {/* Additional Skills Highlight */}
-        <div className="mt-16 text-center animate-fade-in">
-          <Card className="glass-card max-w-4xl mx-auto">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-6">Additional Competencies</h3>
-              <div className="grid md:grid-cols-3 gap-6 text-center">
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-primary">Architecture</h4>
-                  <p className="text-sm text-muted-foreground">Microservices, REST APIs, OAuth2, System Design</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-accent">Methodologies</h4>
-                  <p className="text-sm text-muted-foreground">Agile, CI/CD, Test-Driven Development, Code Review</p>
-                </div>
-                <div className="space-y-2">
-                  <h4 className="font-semibold text-purple-500">Soft Skills</h4>
-                  <p className="text-sm text-muted-foreground">Team Leadership, Problem Solving, Technical Writing</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )
