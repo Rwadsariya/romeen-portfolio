@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { GraduationCap, BookOpen } from "lucide-react"
+import { GraduationCap, BookOpen, Award, Users } from "lucide-react"
 
 export function About() {
   return (
@@ -104,6 +104,62 @@ export function About() {
                           {course}
                         </div>
                       ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Awards & Recognition Section */}
+            <Card className="glass-card hover-lift">
+              <CardContent className="p-8">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-amber-500/10 p-3 rounded-lg">
+                    <Award className="h-8 w-8 text-amber-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-4">Awards & Recognition</h3>
+                    <div className="space-y-4">
+                      <div className="border-l-2 border-primary/20 pl-4">
+                        <h4 className="font-semibold text-primary">Dean's Scholar Award</h4>
+                        <p className="text-sm text-muted-foreground">Awarded for Year 1, 2, 3, and 4 of undergraduate studies at Brock University</p>
+                      </div>
+                      <div className="border-l-2 border-accent/20 pl-4">
+                        <h4 className="font-semibold text-accent">Best Youth Volunteer Award</h4>
+                        <p className="text-sm text-muted-foreground">Recognized by the Government of Ontario for outstanding community service</p>
+                      </div>
+                      <div className="border-l-2 border-primary/20 pl-4">
+                        <h4 className="font-semibold text-primary">Matching Minds Research Program</h4>
+                        <p className="text-sm text-muted-foreground">Selected participant for research-based initiatives</p>
+                      </div>
+                      <div className="border-l-2 border-accent/20 pl-4">
+                        <h4 className="font-semibold text-accent">Alumni Scholarship</h4>
+                        <p className="text-sm text-muted-foreground">Awarded for academic excellence</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Leadership & Involvement Section */}
+            <Card className="glass-card hover-lift">
+              <CardContent className="p-8">
+                <div className="flex items-start space-x-4">
+                  <div className="bg-emerald-500/10 p-3 rounded-lg">
+                    <Users className="h-8 w-8 text-emerald-500" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-4">Leadership & Involvement</h3>
+                    <div className="space-y-4">
+                      <div className="border-l-2 border-emerald-500/20 pl-4">
+                        <h4 className="font-semibold text-emerald-600 dark:text-emerald-400">Team Lead, Ismaili Volunteers Canada (IVC)</h4>
+                        <p className="text-sm text-muted-foreground">Led and coordinated volunteer initiatives, fostering teamwork and community engagement</p>
+                      </div>
+                      <div className="border-l-2 border-emerald-500/20 pl-4">
+                        <h4 className="font-semibold text-emerald-600 dark:text-emerald-400">Computer Science Mentor</h4>
+                        <p className="text-sm text-muted-foreground">Supported incoming COSC students, providing guidance on coursework, projects, and career development</p>
+                      </div>
                     </div>
                   </div>
                 </div>
