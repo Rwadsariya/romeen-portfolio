@@ -15,7 +15,7 @@ const projects = [
       "Form validation with Zod",
       "Responsive design with Tailwind CSS"
     ],
-    githubUrl: "https://github.com/Rwadsariya",
+    githubUrl: "https://github.com/Rwadsariya/ConnectX_4p02",
     liveUrl: "#",
     category: "AI/ML"
   },
@@ -30,7 +30,7 @@ const projects = [
       "Comprehensive monitoring with Grafana",
       "Scalable Kubernetes deployment"
     ],
-    githubUrl: "https://github.com/Rwadsariya",
+    githubUrl: "https://github.com/Rwadsariya/kubernetes-nextjs-shopping-app",
     liveUrl: "#",
     category: "DevOps"
   },
@@ -46,7 +46,7 @@ const projects = [
       "Containerized with Docker",
       "Responsive React interface"
     ],
-    githubUrl: "https://github.com/Rwadsariya",
+    githubUrl: "https://github.com/Rwadsariya/Salon_booking_microservice",
     liveUrl: "#",
     category: "Full-Stack"
   }
