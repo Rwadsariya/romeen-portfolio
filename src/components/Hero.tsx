@@ -1,5 +1,17 @@
 import { Button } from "@/components/ui/button"
-import { ArrowDown, Github, Linkedin, Mail, Code2, Database, Server, Brain, Cloud, Cpu, Terminal, Layers } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Mail, Cpu, Terminal } from "lucide-react"
+import reactLogo from "@/assets/tech/react.svg"
+import nextjsLogo from "@/assets/tech/nextjs.svg"
+import springLogo from "@/assets/tech/spring.svg"
+import pythonLogo from "@/assets/tech/python.svg"
+import terraformLogo from "@/assets/tech/terraform.svg"
+import ansibleLogo from "@/assets/tech/ansible.svg"
+import dockerLogo from "@/assets/tech/docker.svg"
+import kubernetesLogo from "@/assets/tech/kubernetes.svg"
+import mongodbLogo from "@/assets/tech/mongodb.svg"
+import nodejsLogo from "@/assets/tech/nodejs.svg"
+import awsLogo from "@/assets/tech/aws.svg"
+import javaLogo from "@/assets/tech/java.svg"
 
 export function Hero() {
   const handleScroll = (sectionId: string) => {
@@ -7,15 +19,19 @@ export function Hero() {
     element?.scrollIntoView({ behavior: "smooth" })
   }
 
-  const techIcons = [
-    { icon: Code2, name: "React", color: "text-blue-500" },
-    { icon: Server, name: "Node.js", color: "text-green-500" },
-    { icon: Database, name: "Database", color: "text-purple-500" },
-    { icon: Cloud, name: "AWS", color: "text-orange-500" },
-    { icon: Brain, name: "AI/ML", color: "text-pink-500" },
-    { icon: Cpu, name: "DevOps", color: "text-indigo-500" },
-    { icon: Terminal, name: "CLI", color: "text-gray-500" },
-    { icon: Layers, name: "Docker", color: "text-cyan-500" }
+  const techLogos = [
+    { src: reactLogo, name: "React", alt: "React" },
+    { src: nextjsLogo, name: "Next.js", alt: "Next.js" },
+    { src: springLogo, name: "Spring", alt: "Spring Boot" },
+    { src: pythonLogo, name: "Python", alt: "Python" },
+    { src: terraformLogo, name: "Terraform", alt: "Terraform" },
+    { src: ansibleLogo, name: "Ansible", alt: "Ansible" },
+    { src: dockerLogo, name: "Docker", alt: "Docker" },
+    { src: kubernetesLogo, name: "K8s", alt: "Kubernetes" },
+    { src: mongodbLogo, name: "MongoDB", alt: "MongoDB" },
+    { src: nodejsLogo, name: "Node.js", alt: "Node.js" },
+    { src: awsLogo, name: "AWS", alt: "Amazon Web Services" },
+    { src: javaLogo, name: "Java", alt: "Java" }
   ]
 
   return (
@@ -104,41 +120,47 @@ export function Hero() {
               </div>
 
               {/* Tech Icons Grid - Different sizes */}
-              {/* Top right - Small icon */}
-              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
-                <Code2 className="h-8 w-8 text-blue-500 group-hover:scale-110 transition-transform" />
+              {/* Top right - React */}
+              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex flex-col items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
+                <img src={reactLogo} alt="React" className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium mt-1 text-muted-foreground">React</span>
               </div>
 
-              {/* Far top right - Small icon */}
-              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
-                <Server className="h-8 w-8 text-green-500 group-hover:scale-110 transition-transform" />
+              {/* Far top right - Next.js */}
+              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex flex-col items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
+                <img src={nextjsLogo} alt="Next.js" className="h-8 w-8 group-hover:scale-110 transition-transform filter dark:invert" />
+                <span className="text-xs font-medium mt-1 text-muted-foreground">Next.js</span>
               </div>
 
-              {/* Middle right - Tall icon */}
+              {/* Middle right - Spring Boot & Java */}
               <div className="col-span-2 row-span-1 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-4 flex items-center justify-center space-x-4 hover:from-primary/10 hover:to-accent/10 transition-colors">
-                <Cloud className="h-10 w-10 text-orange-500" />
-                <span className="font-semibold text-foreground">Cloud & DevOps</span>
+                <img src={springLogo} alt="Spring Boot" className="h-10 w-10" />
+                <img src={javaLogo} alt="Java" className="h-10 w-10" />
+                <span className="font-semibold text-foreground">Backend</span>
               </div>
 
-              {/* Bottom left under image */}
-              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
-                <Database className="h-8 w-8 text-purple-500 group-hover:scale-110 transition-transform" />
+              {/* Bottom left under image - Python */}
+              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex flex-col items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
+                <img src={pythonLogo} alt="Python" className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium mt-1 text-muted-foreground">Python</span>
               </div>
 
-              {/* Bottom center under image */}
-              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
-                <Brain className="h-8 w-8 text-pink-500 group-hover:scale-110 transition-transform" />
+              {/* Bottom center under image - MongoDB */}
+              <div className="col-span-1 row-span-1 bg-card rounded-2xl p-4 flex flex-col items-center justify-center hover:bg-accent/50 transition-colors group cursor-pointer">
+                <img src={mongodbLogo} alt="MongoDB" className="h-8 w-8 group-hover:scale-110 transition-transform" />
+                <span className="text-xs font-medium mt-1 text-muted-foreground">MongoDB</span>
               </div>
 
-              {/* Bottom right - Wide experience box */}
+              {/* Bottom right - DevOps tools */}
               <div className="col-span-2 row-span-1 bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-2xl p-4 flex items-center justify-between">
-                <div>
-                  <div className="text-sm font-medium text-muted-foreground">Experience</div>
-                  <div className="text-2xl font-bold text-primary">2+ Years</div>
-                </div>
                 <div className="flex space-x-2">
-                  <Cpu className="h-6 w-6 text-indigo-500" />
-                  <Terminal className="h-6 w-6 text-gray-500" />
+                  <img src={dockerLogo} alt="Docker" className="h-6 w-6" />
+                  <img src={kubernetesLogo} alt="Kubernetes" className="h-6 w-6" />
+                  <img src={terraformLogo} alt="Terraform" className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium text-muted-foreground">DevOps</div>
+                  <div className="text-lg font-bold text-primary">Cloud Native</div>
                 </div>
               </div>
             </div>
