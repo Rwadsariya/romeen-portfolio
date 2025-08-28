@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button"
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react"
 import { motion } from "framer-motion"
+import { ArrowRight, Github, Linkedin, Mail } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { TypewriterText } from "@/components/TypewriterText"
 import reactLogo from "@/assets/tech/react.svg"
 import nextjsLogo from "@/assets/tech/nextjs.svg"
 import springLogo from "@/assets/tech/spring.svg"
@@ -22,118 +23,124 @@ import vscodeLogo from "@/assets/tech/vscode.svg"
 
 export function Hero() {
   const handleScroll = (sectionId: string) => {
-    const element = document.querySelector(sectionId)
-    element?.scrollIntoView({ behavior: "smooth" })
-  }
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3
+        delayChildren: 0.3,
+        staggerChildren: 0.2
       }
     }
-  }
+  };
 
   const itemVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 20 },
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      scale: 1,
-      y: 0,
       transition: {
-        duration: 0.5
+        staggerChildren: 0.1
       }
     }
-  }
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring" as const,
+        damping: 12,
+        stiffness: 200
+      }
+    }
+  };
 
   return (
-    <section id="home" className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Animation Elements */}
-      <div className="absolute inset-0 -z-10">
+    <section id="hero" className="min-h-screen relative overflow-hidden bg-gradient-to-br from-background via-background to-muted/20 snap-start">
+      {/* Dynamic Background */}
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
+            rotate: [0, 5, 0],
           }}
           transition={{
-            duration: 8,
+            duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            repeatType: "reverse"
           }}
+          className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl"
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
-            opacity: [0.2, 0.4, 0.2],
+            rotate: [0, -5, 0],
           }}
           transition={{
-            duration: 10,
+            duration: 25,
             repeat: Infinity,
-            ease: "easeInOut"
+            repeatType: "reverse"
           }}
+          className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-accent/20 to-primary/20 rounded-full blur-3xl"
         />
       </div>
 
-      <div className="max-w-7xl mx-auto">
-        {/* Two Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
-          
-          {/* Left Column - Message */}
-          <div className="space-y-8">
-            <div className="space-y-6">
-              <div className="overflow-hidden">
-                <motion.h1 
-                  className="text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-tight"
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid lg:grid-cols-2 gap-12 items-center w-full"
+        >
+          {/* Left Column - Content */}
+          <motion.div variants={itemVariants} className="space-y-8">
+            <div className="space-y-4">
+              <motion.h1 
+                variants={titleVariants}
+                initial="hidden"
+                animate="visible"
+                className="text-5xl md:text-7xl font-bold leading-tight"
+              >
+                {"Hey, I am a".split("").map((char, index) => (
+                  <motion.span key={index} variants={letterVariants}>
+                    {char === " " ? "\u00A0" : char}
+                  </motion.span>
+                ))}{" "}
+                <motion.span 
+                  className="text-gradient block"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1.5, duration: 0.8, type: "spring" }}
                 >
-                  <motion.span 
-                    className="block text-muted-foreground"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1, duration: 0.6 }}
-                  >
-                    Hey,
-                  </motion.span>
-                  <motion.span 
-                    className="block"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
-                  >
-                    I am a
-                  </motion.span>
-                  <motion.span 
-                    className="block text-primary"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, duration: 0.6 }}
-                  >
-                    Software
-                  </motion.span>
-                  <motion.span 
-                    className="block text-primary"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4, duration: 0.6 }}
-                  >
-                    Developer
-                  </motion.span>
-                </motion.h1>
-              </div>
+                  <TypewriterText
+                    words={["Software Developer", "Full Stack Engineer", "Cloud Architect", "DevOps Enthusiast"]}
+                    delay={2000}
+                    speed={150}
+                    deleteSpeed={100}
+                    pauseTime={3000}
+                  />
+                </motion.span>
+              </motion.h1>
               
               <motion.p 
+                variants={itemVariants}
                 className="text-xl text-muted-foreground max-w-lg leading-relaxed"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6, duration: 0.6 }}
               >
                 Building scalable applications with modern technologies and cloud infrastructure. 
                 Passionate about creating efficient, user-focused solutions.
@@ -142,10 +149,8 @@ export function Hero() {
 
             {/* CTA Buttons */}
             <motion.div 
+              variants={itemVariants}
               className="flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
             >
               <motion.div
                 whileHover={{ scale: 1.05 }}
@@ -153,10 +158,15 @@ export function Hero() {
               >
                 <Button
                   size="lg"
-                  onClick={() => handleScroll("#contact")}
-                  className="bg-foreground text-background hover:bg-foreground/90 rounded-full px-8 font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                  onClick={() => handleScroll("contact")}
+                  className="group relative overflow-hidden bg-primary text-primary-foreground hover:bg-primary/90"
                 >
                   Get In Touch
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full"
+                    animate={{ x: ["0%", "200%"] }}
+                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                  />
                 </Button>
               </motion.div>
               <motion.div
@@ -166,21 +176,19 @@ export function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  onClick={() => handleScroll("#projects")}
-                  className="rounded-full px-8 font-semibold border-2 hover:bg-accent/10 hover:border-accent transition-all duration-300"
+                  onClick={() => handleScroll("projects")}
+                  className="group"
                 >
                   View Work
-                  <ArrowDown className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
             </motion.div>
 
             {/* Social Links */}
             <motion.div 
+              variants={itemVariants}
               className="flex gap-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.6 }}
             >
               {[
                 { href: "https://github.com/Rwadsariya", icon: Github, label: "GitHub" },
@@ -192,289 +200,165 @@ export function Hero() {
                   href={href}
                   target={label !== "Email" ? "_blank" : undefined}
                   rel={label !== "Email" ? "noopener noreferrer" : undefined}
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
-                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
+                  whileHover={{ scale: 1.1, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <motion.div
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </motion.div>
-                  <span className="font-medium group-hover:text-primary transition-colors">{label}</span>
+                  <Icon className="h-5 w-5" />
+                  <span className="font-medium">{label}</span>
                 </motion.a>
               ))}
             </motion.div>
-          </div>
+          </motion.div>
 
-          {/* Right Column - Image and Tech Grid */}
+          {/* Right Column - Enhanced Tech Grid */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
+            className="relative"
           >
-            <div className="grid grid-cols-4 grid-rows-5 gap-4 h-[700px]">
-              
-              {/* Main Profile Image - Takes 2x3 space */}
-              <motion.div 
-                className="col-span-2 row-span-3 rounded-3xl overflow-hidden shadow-xl group relative"
-                animate={{
-                  y: [-5, 5, -5],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                whileHover={{ scale: 1.02 }}
+            {/* Floating Profile Image */}
+            <motion.div
+              animate={{
+                y: [-10, 10, -10],
+                rotate: [-1, 1, -1]
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="mb-8 flex justify-center"
+            >
+              <motion.div
+                whileHover={{ scale: 1.05, rotate: 5 }}
+                className="relative w-48 h-48 rounded-full overflow-hidden shadow-2xl border-4 border-primary/20"
               >
                 <img
                   src="/lovable-uploads/2835804e-039a-4f91-ae5e-57761e2f6534.png"
                   alt="Romeen Wadsariya"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent" />
+              </motion.div>
+            </motion.div>
+
+            {/* Enhanced Technology Grid - 5x4 Layout */}
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              className="grid grid-cols-4 gap-3"
+            >
+              {/* Row 1 - Frontend */}
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-primary/10 transition-colors group cursor-pointer">
+                <motion.img src={reactLogo} alt="React" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 180 }} />
+                <span className="text-xs font-medium text-center block">React</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-primary/10 transition-colors group cursor-pointer">
+                <motion.img src={nextjsLogo} alt="Next.js" className="h-8 w-8 mx-auto mb-2 dark:invert" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Next.js</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-primary/10 transition-colors group cursor-pointer">
+                <motion.img src={nodejsLogo} alt="Node.js" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: -180 }} />
+                <span className="text-xs font-medium text-center block">Node.js</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-primary/10 transition-colors group cursor-pointer">
+                <motion.img src={vscodeLogo} alt="VS Code" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">VS Code</span>
               </motion.div>
 
-              {/* Tech Icons Grid - Enhanced with new icons */}
-              <motion.div 
-                className="col-span-2 row-span-2 grid grid-cols-2 gap-2"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {/* React */}
-                <motion.div 
-                  className="bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
-                  <motion.img 
-                    src={reactLogo} 
-                    alt="React" 
-                    className="h-8 w-8"
-                    whileHover={{ rotate: 180 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">React</span>
-                </motion.div>
-
-                {/* Next.js */}
-                <motion.div 
-                  className="bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                >
-                  <motion.img 
-                    src={nextjsLogo} 
-                    alt="Next.js" 
-                    className="h-8 w-8 filter dark:invert"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">Next.js</span>
-                </motion.div>
-
-                {/* Node.js */}
-                <motion.div 
-                  className="bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                >
-                  <motion.img 
-                    src={nodejsLogo} 
-                    alt="Node.js" 
-                    className="h-8 w-8"
-                    whileHover={{ rotate: -180 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">Node.js</span>
-                </motion.div>
-
-                {/* VS Code */}
-                <motion.div 
-                  className="bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, rotate: -5 }}
-                >
-                  <motion.img 
-                    src={vscodeLogo} 
-                    alt="VS Code" 
-                    className="h-8 w-8"
-                    whileHover={{ scale: 1.2 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">VS Code</span>
-                </motion.div>
+              {/* Row 2 - Backend */}
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-accent/10 transition-colors group cursor-pointer">
+                <motion.img src={springLogo} alt="Spring Boot" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 180 }} />
+                <span className="text-xs font-medium text-center block">Spring</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-accent/10 transition-colors group cursor-pointer">
+                <motion.img src={javaLogo} alt="Java" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Java</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-accent/10 transition-colors group cursor-pointer">
+                <motion.img src={pythonLogo} alt="Python" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: -180 }} />
+                <span className="text-xs font-medium text-center block">Python</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-accent/10 transition-colors group cursor-pointer">
+                <motion.img src={gitLogo} alt="Git" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Git</span>
               </motion.div>
 
-              {/* Backend Technologies - Spring Boot & Java */}
-              <motion.div 
-                className="col-span-2 row-span-1 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl p-4 flex items-center justify-center space-x-4 hover:from-primary/20 hover:to-accent/20 transition-colors shadow-md hover:shadow-lg"
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-                whileHover={{ scale: 1.02 }}
-              >
-                <motion.img 
-                  src={springLogo} 
-                  alt="Spring Boot" 
-                  className="h-10 w-10"
-                  whileHover={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.img 
-                  src={javaLogo} 
-                  alt="Java" 
-                  className="h-10 w-10"
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <span className="font-semibold text-foreground">Backend</span>
+              {/* Row 3 - Databases */}
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-emerald-500/10 transition-colors group cursor-pointer">
+                <motion.img src={mongodbLogo} alt="MongoDB" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 10 }} />
+                <span className="text-xs font-medium text-center block">MongoDB</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-emerald-500/10 transition-colors group cursor-pointer">
+                <motion.img src={postgresqlLogo} alt="PostgreSQL" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: -10 }} />
+                <span className="text-xs font-medium text-center block">PostgreSQL</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-emerald-500/10 transition-colors group cursor-pointer">
+                <motion.img src={redisLogo} alt="Redis" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 15 }} />
+                <span className="text-xs font-medium text-center block">Redis</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-emerald-500/10 transition-colors group cursor-pointer">
+                <motion.img src={awsLogo} alt="AWS" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">AWS</span>
               </motion.div>
 
-              {/* Database Section */}
-              <motion.div 
-                className="col-span-2 row-span-1 grid grid-cols-3 gap-2"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-              >
-                {/* MongoDB */}
-                <motion.div 
-                  className="bg-card rounded-xl p-2 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                >
-                  <motion.img 
-                    src={mongodbLogo} 
-                    alt="MongoDB" 
-                    className="h-6 w-6"
-                    whileHover={{ rotate: 10 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">MongoDB</span>
-                </motion.div>
-
-                {/* PostgreSQL */}
-                <motion.div 
-                  className="bg-card rounded-xl p-2 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                >
-                  <motion.img 
-                    src={postgresqlLogo} 
-                    alt="PostgreSQL" 
-                    className="h-6 w-6"
-                    whileHover={{ rotate: -10 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">PostgreSQL</span>
-                </motion.div>
-
-                {/* Redis */}
-                <motion.div 
-                  className="bg-card rounded-xl p-2 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                >
-                  <motion.img 
-                    src={redisLogo} 
-                    alt="Redis" 
-                    className="h-6 w-6"
-                    whileHover={{ rotate: 15 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                  <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">Redis</span>
-                </motion.div>
+              {/* Row 4 - DevOps & Cloud */}
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-blue-500/10 transition-colors group cursor-pointer">
+                <motion.img src={dockerLogo} alt="Docker" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 360 }} />
+                <span className="text-xs font-medium text-center block">Docker</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-blue-500/10 transition-colors group cursor-pointer">
+                <motion.img src={kubernetesLogo} alt="Kubernetes" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Kubernetes</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-blue-500/10 transition-colors group cursor-pointer">
+                <motion.img src={terraformLogo} alt="Terraform" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: -180 }} />
+                <span className="text-xs font-medium text-center block">Terraform</span>
+              </motion.div>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-blue-500/10 transition-colors group cursor-pointer">
+                <motion.img src={ansibleLogo} alt="Ansible" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Ansible</span>
               </motion.div>
 
-              {/* DevOps & Cloud Section */}
-              <motion.div 
-                className="col-span-4 row-span-1 bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-2xl p-4 flex items-center justify-between shadow-md hover:shadow-lg transition-shadow"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0, duration: 0.6 }}
-                whileHover={{ scale: 1.01 }}
-              >
-                <motion.div 
-                  className="flex space-x-3"
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  {[
-                    { src: dockerLogo, alt: "Docker", name: "Docker" },
-                    { src: kubernetesLogo, alt: "Kubernetes", name: "K8s" },
-                    { src: terraformLogo, alt: "Terraform", name: "Terraform" },
-                    { src: awsLogo, alt: "AWS", name: "AWS" },
-                    { src: grafanaLogo, alt: "Grafana", name: "Grafana" },
-                    { src: linuxLogo, alt: "Linux", name: "Linux" },
-                    { src: gitLogo, alt: "Git", name: "Git" }
-                  ].map((tech, index) => (
-                    <motion.div
-                      key={tech.name}
-                      className="group relative"
-                      variants={itemVariants}
-                      whileHover={{ scale: 1.2, rotate: 5 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <img src={tech.src} alt={tech.alt} className="h-8 w-8" />
-                      <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-foreground text-background text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                        {tech.name}
-                      </div>
-                    </motion.div>
-                  ))}
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 1.2, duration: 0.6 }}
-                >
-                  <div className="text-sm font-medium text-muted-foreground">DevOps & Cloud</div>
-                  <div className="text-lg font-bold text-primary">Infrastructure</div>
-                </motion.div>
+              {/* Row 5 - Monitoring & Tools */}
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-orange-500/10 transition-colors group cursor-pointer">
+                <motion.img src={grafanaLogo} alt="Grafana" className="h-8 w-8 mx-auto mb-2" whileHover={{ rotate: 10 }} />
+                <span className="text-xs font-medium text-center block">Grafana</span>
               </motion.div>
-
-              {/* Python */}
-              <motion.div 
-                className="col-span-1 row-span-1 bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ scale: 1.1, rotate: 5 }}
-              >
-                <motion.img 
-                  src={pythonLogo} 
-                  alt="Python" 
-                  className="h-8 w-8"
-                  whileHover={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">Python</span>
+              
+              <motion.div variants={itemVariants} className="bg-card/50 backdrop-blur-sm rounded-xl p-3 hover:bg-orange-500/10 transition-colors group cursor-pointer">
+                <motion.img src={linuxLogo} alt="Linux" className="h-8 w-8 mx-auto mb-2" whileHover={{ scale: 1.2 }} />
+                <span className="text-xs font-medium text-center block">Linux</span>
               </motion.div>
-
-              {/* Ansible */}
-              <motion.div 
-                className="col-span-1 row-span-1 bg-card rounded-2xl p-3 flex flex-col items-center justify-center hover:bg-accent/20 transition-colors group cursor-pointer shadow-md hover:shadow-lg"
-                variants={itemVariants}
-                initial="hidden"
-                animate="visible"
-                whileHover={{ scale: 1.1, rotate: -5 }}
-              >
-                <motion.img 
-                  src={ansibleLogo} 
-                  alt="Ansible" 
-                  className="h-8 w-8"
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ duration: 0.3 }}
-                />
-                <span className="text-xs font-medium mt-1 text-muted-foreground group-hover:text-foreground transition-colors">Ansible</span>
+              
+              <motion.div variants={itemVariants} className="col-span-2 bg-gradient-to-r from-primary/10 to-accent/10 backdrop-blur-sm rounded-xl p-4 hover:from-primary/20 hover:to-accent/20 transition-colors group cursor-pointer">
+                <div className="text-center">
+                  <span className="text-sm font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    +More Technologies
+                  </span>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    Always Learning
+                  </div>
+                </div>
               </motion.div>
-            </div>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
